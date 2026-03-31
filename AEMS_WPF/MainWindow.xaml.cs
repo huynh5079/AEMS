@@ -21,28 +21,27 @@ namespace AEMS_WPF
             txtUserRole.Text = _user.Role;
             txtUserInitial.Text = string.IsNullOrEmpty(_user.FullName) ? "?" : _user.FullName[0].ToString().ToUpper();
 
+            
             // Handle Menu Visibility
             if (_user.Role == "Admin")
             {
                 BtnUsers.Visibility = Visibility.Visible;
                 BtnErrorLogs.Visibility = Visibility.Visible;
-                BtnApprovals.Visibility = Visibility.Visible;
-                var uow = (DataAccess.Repositories.Abstraction.IUnitOfWork)App.ServiceProvider.GetService(typeof(DataAccess.Repositories.Abstraction.IUnitOfWork));
-                var logService = (BusinessLogic.Service.System.ISystemErrorLogService)App.ServiceProvider.GetService(typeof(BusinessLogic.Service.System.ISystemErrorLogService));
-
-                // Gọi trang Dashboard riêng của Admin
-                MainFrame.Navigate(new AEMS_WPF.Views.Admin.AdminDashboardPage(uow, logService));
+                BtnActivityLogs.Visibility = Visibility.Visible;
+                BtnApprovals.Visibility = Visibility.Collapsed;
             }
             else if (_user.Role == "Approver")
             {
                 BtnApprovals.Visibility = Visibility.Visible;
-                MainFrame.Navigate(new Views.Dashboard.OverviewPage(_user));
+                BtnEvents.Visibility = Visibility.Collapsed;
+                BtnUsers.Visibility = Visibility.Collapsed;
+                BtnErrorLogs.Visibility = Visibility.Collapsed;
             }
+
+            if (_user.Role == "Approver")
+                MainFrame.Navigate(new Views.Dashboard.ApproveDashBoard(_user));
             else
-            {
-                // Navigate to default page
                 MainFrame.Navigate(new Views.Dashboard.OverviewPage(_user));
-            }
         }
 
         private void Nav_Click(object sender, RoutedEventArgs e)
@@ -58,12 +57,18 @@ namespace AEMS_WPF
                         MainFrame.Navigate(new Views.Organizer.EventListPage(_user));
                         break;
                     case "BtnNotifications":
-                        MainFrame.Navigate(new Views.Common.NotificationPage());
+                        MainFrame.Navigate(new Views.Common.NotificationPage(_user));
                         break;
                     case "BtnErrorLogs":
                         MainFrame.Navigate(new Views.Common.SystemErrorLogPage());
                         break;
-                    // Add more cases as more pages are implemented
+                    case "BtnActivityLogs":
+                        MainFrame.Navigate(new Views.Common.ActivityLogPage());
+                        break;
+                    case "BtnApprovals":
+                        MainFrame.Navigate(new Views.Dashboard.ApproveDashBoard(_user));
+                        break;
+                        // Add more cases as more pages are implemented
                 }
             }
         }
