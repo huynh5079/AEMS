@@ -6,9 +6,10 @@
       xmlns:local="clr-namespace:AEMS_WPF.Views.Organizer"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
-      Title="My Events">
+      Title="My Events"
+      Background="Transparent">
 
-    <Grid>
+    <Grid Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

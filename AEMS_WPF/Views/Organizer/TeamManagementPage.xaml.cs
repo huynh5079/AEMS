@@ -45,7 +45,8 @@ namespace AEMS_WPF.Views.Organizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading teams: {ex.Message}", "AEMS Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var msg = ex.InnerException != null ? $"{ex.Message}\nInner: {ex.InnerException.Message}" : ex.Message;
+                MessageBox.Show($"Error loading teams: {msg}", "AEMS Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -70,7 +71,8 @@ namespace AEMS_WPF.Views.Organizer
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error creating team: {ex.Message}", "AEMS Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var msg = ex.InnerException != null ? $"{ex.Message}\nInner: {ex.InnerException.Message}" : ex.Message;
+                MessageBox.Show($"Error creating team: {msg}", "AEMS Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

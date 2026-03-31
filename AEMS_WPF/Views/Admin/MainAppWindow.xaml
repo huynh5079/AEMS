@@ -1,9 +1,12 @@
-﻿<Window x:Class="AEMS_WPF.Views.MainAppWindow"
+<Window x:Class="AEMS_WPF.Views.MainAppWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AEMS - Management System" Height="700" Width="1200"
-        WindowStartupLocation="CenterScreen">
+        Title="AEMS - Management System" Height="750" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource PrimaryBlueBrush}">
     
-    <Frame x:Name="RootFrame" NavigationUIVisibility="Hidden" />
+    <Grid>
+        <Frame x:Name="RootFrame" NavigationUIVisibility="Hidden" />
+    </Grid>
     
 </Window>

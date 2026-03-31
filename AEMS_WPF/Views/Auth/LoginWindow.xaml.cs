@@ -1,4 +1,5 @@
-﻿using AEMS_WPF.Views.Admin;
+using AEMS_WPF.Views.Admin;
+using AEMS_WPF.Views.Dashboard;
 using System.Windows;
 
 using BusinessLogic.DTOs.Authentication.Login;
@@ -105,27 +106,27 @@ namespace AEMS_WPF.Views.Auth
                             var logService = App.ServiceProvider.GetRequiredService<ISystemErrorLogService>();
 
                             // Đẩy trang AdminDashboard vào khung
-                            appWindow.RootFrame.Navigate(new AdminDashboardPage(uow, logService));
-                        }
-                        else if (role == "Approver")
-                        {
-                            MessageBox.Show("Chào mừng Approver! Giao diện đang được phát triển.");
-                            // Sau này đổi thành: appWindow.RootFrame.Navigate(new ApproverDashboardPage());
+                            appWindow.RootFrame.Navigate(new AdminDashboardPage(uow, logService, result.User));
                         }
                         else if (role == "Organizer")
                         {
-                            MessageBox.Show("Chào mừng Organizer! Giao diện đang được phát triển.");
-                            // Sau này đổi thành: appWindow.RootFrame.Navigate(new OrganizerDashboardPage());
+                            // Điều hướng Organizer đến trang Dashboard chính của họ
+                            appWindow.RootFrame.Navigate(new Views.Dashboard.OrganizerDashboardPage(result.User));
+                            appWindow.Show();
+                            this.Close();
+                            return;
+                        }
+                        else if (role == "Approver")
+                        {
+                            // Approver Dashboard hiện là một Window riêng
+                            var approveWindow = new Views.Dashboard.ApproveDashBoard(result.User);
+                            approveWindow.Show();
+                            this.Close();
+                            return;
                         }
 
                         // 3. Hiển thị cửa sổ chính và Đóng cửa sổ Login
                         appWindow.Show();
-                        this.Close();
-                    }
-                    else if (role == "Approver")
-                    {
-                        var approveWindow = new Views.Dashboard.ApproveDashBoard(result.User);
-                        approveWindow.Show();
                         this.Close();
                     }
                     else

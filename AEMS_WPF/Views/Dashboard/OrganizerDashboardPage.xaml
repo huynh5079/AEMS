@@ -1,0 +1,147 @@
+<Page x:Class="AEMS_WPF.Views.Dashboard.OrganizerDashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      Title="Organizer Dashboard" Background="Transparent" FontFamily="Segoe UI"
+      d:DesignHeight="900" d:DesignWidth="1200">
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="TextDark" Color="#181C32"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#A1A5B7"/>
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#009EF7"/>
+
+        <Style x:Key="MenuItemActiveStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource LowWhiteBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="15,12"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="10" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MenuItemLightStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Padding" Value="15,12"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="10" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource LowWhiteBrush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="{StaticResource NavbarGradient}" BorderBrush="{StaticResource LowWhiteBrush}" BorderThickness="0,0,1,0">
+            <DockPanel Margin="25,30,25,25">
+                <!-- App Logo/Title -->
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,40">
+                    <Border Background="{StaticResource PrimaryButtonGradient}" CornerRadius="8" Width="38" Height="38">
+                        <TextBlock Text="📅" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="AEMS" Foreground="White" FontSize="22" FontWeight="Bold" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- User Info Profile Section -->
+                <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,0">
+                    <Separator Background="#EEF2F6" Margin="0,0,0,20"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                        <Border Background="{StaticResource LowWhiteBrush}" CornerRadius="20" Width="40" Height="40">
+                            <TextBlock x:Name="txtUserInitial" Text="O" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+                        </Border>
+                        <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock x:Name="txtUserName" Text="Event Organizer" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                            <TextBlock Text="Organizer Role" Foreground="{StaticResource TextMutedBrush}" FontSize="12"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button Content="Sign Out" Click="BtnSignOut_Click" Background="Transparent" BorderThickness="0" Foreground="#F87171" HorizontalAlignment="Left" Cursor="Hand" FontSize="15" FontWeight="SemiBold"/>
+                </StackPanel>
+
+                <!-- Navigation Menu -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel>
+                        <TextBlock Text="ORGANIZER MENU" Foreground="#9BA3AF" FontSize="12" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <Button Style="{StaticResource MenuItemActiveStyle}" Click="BtnNavOverview_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📊" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Overview" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavEvents_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📅" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="My Managed Events" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavCreateEvent_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="➕" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Create New Event" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Text="REPORTS &amp; LOGS" Foreground="#9BA3AF" FontSize="12" FontWeight="Bold" Margin="0,30,0,15"/>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavNotifications_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🔔" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Notifications" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavActivity_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📜" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="My Activity Log" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Border Grid.Column="1" Background="Transparent" Padding="40,30">
+            <Frame x:Name="OrganizerFrame" NavigationUIVisibility="Hidden" />
+        </Border>
+    </Grid>
+</Page>

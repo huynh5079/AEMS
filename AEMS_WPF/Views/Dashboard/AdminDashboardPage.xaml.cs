@@ -1,4 +1,7 @@
-﻿using AEMS_WPF.ViewModels;
+using AEMS_WPF.ViewModels;
+using AEMS_WPF.Views.Common;
+using AEMS_WPF.Views.Admin;
+using BusinessLogic.DTOs.Authentication.Login;
 using BusinessLogic.Service.System;
 using DataAccess.Repositories.Abstraction;
 using Microsoft.EntityFrameworkCore; 
@@ -13,7 +16,7 @@ using LiveCharts;
 using LiveCharts.Wpf;
 using System.Collections.Generic;
 
-namespace AEMS_WPF.Views.Admin
+namespace AEMS_WPF.Views.Dashboard
 {
     public partial class AdminDashboardPage : Page
     {
@@ -22,13 +25,15 @@ namespace AEMS_WPF.Views.Admin
         private AdminDashboardViewModel _viewModel;
         public SeriesCollection ActivitySeries { get; set; }
         public List<string> DateLabels { get; set; }
+        private readonly LoggedInUserDto _user;
 
         // Tiêm (Inject) IUnitOfWork và ISystemErrorLogService vào Constructor giống hệt Web Controller
-        public AdminDashboardPage(IUnitOfWork uow, ISystemErrorLogService logService)
+        public AdminDashboardPage(IUnitOfWork uow, ISystemErrorLogService logService, LoggedInUserDto user)
         {
             InitializeComponent();
             _uow = uow;
             _logService = logService;
+            _user = user;
 
             // Khởi tạo và gán ViewModel cho DataContext của UI
             _viewModel = new AdminDashboardViewModel();
@@ -144,7 +149,7 @@ namespace AEMS_WPF.Views.Admin
             if (this.NavigationService != null)
             {
                 // Chuyển sang trang Quản lý người dùng
-                this.NavigationService.Navigate(new UserManagementPage(_uow));
+                this.NavigationService.Navigate(new UserManagementPage(_uow, _user));
             }
         }
 
@@ -186,7 +191,7 @@ namespace AEMS_WPF.Views.Admin
             // Khi đang ở Dashboard mà bấm nút Overview (Dashboard) thì tải lại trang
             if (this.NavigationService != null)
             {
-                this.NavigationService.Navigate(new AdminDashboardPage(_uow, _logService));
+                this.NavigationService.Navigate(new AdminDashboardPage(_uow, _logService, _user));
             }
         }
         private void MenuDepartment_Click(object sender, RoutedEventArgs e)
@@ -281,7 +286,7 @@ namespace AEMS_WPF.Views.Admin
             if (this.NavigationService != null)
             {
                 // Chuyển sang trang Quản lý người dùng
-                this.NavigationService.Navigate(new UserManagementPage(_uow));
+                this.NavigationService.Navigate(new UserManagementPage(_uow, _user));
             }
         }
         private void BtnNavReports_Click(object sender, RoutedEventArgs e) { }
@@ -294,5 +299,29 @@ namespace AEMS_WPF.Views.Admin
         }
         private void BtnNavSettings_Click(object sender, RoutedEventArgs e) { }
         private void BtnNavSecurity_Click(object sender, RoutedEventArgs e) { }
+
+        private void BtnNavNotifications_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.NavigationService != null)
+            {
+                this.NavigationService.Navigate(new NotificationPage(_user));
+            }
+        }
+
+        private void BtnNavActivityLog_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.NavigationService != null)
+            {
+                this.NavigationService.Navigate(new ActivityLogPage());
+            }
+        }
+
+        private void BtnNavErrorLog_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.NavigationService != null)
+            {
+                this.NavigationService.Navigate(new SystemErrorsPage(_uow, _logService));
+            }
+        }
     }
 }

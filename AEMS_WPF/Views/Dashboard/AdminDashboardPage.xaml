@@ -1,4 +1,4 @@
-﻿<Page x:Class="AEMS_WPF.Views.Admin.AdminDashboardPage"
+<Page x:Class="AEMS_WPF.Views.Dashboard.AdminDashboardPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -207,6 +207,20 @@
                             </StackPanel>
                         </Button>
 
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavNotifications_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🔔" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Notifications" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavActivityLog_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📜" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Activity Log" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
                         <TextBlock Text="SYSTEM" Foreground="#9BA3AF" FontSize="12" FontWeight="Bold" Margin="0,30,0,15"/>
 
                         <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavSettings_Click">
@@ -220,6 +234,13 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="🛡️" Margin="0,0,15,0" FontSize="18"/>
                                 <TextBlock Text="Security" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavErrorLog_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚠️" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="System Logs" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

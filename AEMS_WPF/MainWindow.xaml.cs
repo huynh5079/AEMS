@@ -1,6 +1,9 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 using BusinessLogic.DTOs.Authentication.Login;
+using Microsoft.Extensions.DependencyInjection;
+using DataAccess.Repositories.Abstraction;
+using BusinessLogic.Service.System;
 
 namespace AEMS_WPF
 {
@@ -39,9 +42,19 @@ namespace AEMS_WPF
             }
 
             if (_user.Role == "Approver")
-                MainFrame.Navigate(new Views.Dashboard.ApproveDashBoard(_user));
-            else
+            {
+                // Navigate to a blank page or overview if inside MainWindow, 
+                // but usually Approvers should just use the ApproveDashBoard window directly.
                 MainFrame.Navigate(new Views.Dashboard.OverviewPage(_user));
+            }
+            else if (_user.Role == "Organizer")
+            {
+                MainFrame.Navigate(new Views.Organizer.EventListPage(_user));
+            }
+            else
+            {
+                MainFrame.Navigate(new Views.Dashboard.OverviewPage(_user));
+            }
         }
 
         private void Nav_Click(object sender, RoutedEventArgs e)
@@ -60,13 +73,21 @@ namespace AEMS_WPF
                         MainFrame.Navigate(new Views.Common.NotificationPage(_user));
                         break;
                     case "BtnErrorLogs":
-                        MainFrame.Navigate(new Views.Common.SystemErrorLogPage());
+                        var uowErr = App.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                        var logSvc = App.ServiceProvider.GetRequiredService<ISystemErrorLogService>();
+                        MainFrame.Navigate(new Views.Admin.SystemErrorsPage(uowErr, logSvc));
                         break;
                     case "BtnActivityLogs":
                         MainFrame.Navigate(new Views.Common.ActivityLogPage());
                         break;
                     case "BtnApprovals":
-                        MainFrame.Navigate(new Views.Dashboard.ApproveDashBoard(_user));
+                        var approveWin = new Views.Dashboard.ApproveDashBoard(_user);
+                        approveWin.Show();
+                        // Optional: this.Close(); if we want to switch shell
+                        break;
+                    case "BtnUsers":
+                        var uow = App.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                        MainFrame.Navigate(new Views.Admin.UserManagementPage(uow, _user));
                         break;
                         // Add more cases as more pages are implemented
                 }

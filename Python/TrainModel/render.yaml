@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: phobert-api
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: python API-PhoBERTModel.py
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: MODEL_PATH
+        value: ./phobert_sentiment_model
