@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using BusinessLogic.DTOs.Authentication.Login;
 
@@ -27,14 +27,22 @@ namespace AEMS_WPF
                 BtnUsers.Visibility = Visibility.Visible;
                 BtnErrorLogs.Visibility = Visibility.Visible;
                 BtnApprovals.Visibility = Visibility.Visible;
+                var uow = (DataAccess.Repositories.Abstraction.IUnitOfWork)App.ServiceProvider.GetService(typeof(DataAccess.Repositories.Abstraction.IUnitOfWork));
+                var logService = (BusinessLogic.Service.System.ISystemErrorLogService)App.ServiceProvider.GetService(typeof(BusinessLogic.Service.System.ISystemErrorLogService));
+
+                // Gọi trang Dashboard riêng của Admin
+                MainFrame.Navigate(new AEMS_WPF.Views.Admin.AdminDashboardPage(uow, logService));
             }
             else if (_user.Role == "Approver")
             {
                 BtnApprovals.Visibility = Visibility.Visible;
+                MainFrame.Navigate(new Views.Dashboard.OverviewPage(_user));
             }
-            
-            // Navigate to default page
-            MainFrame.Navigate(new Views.Dashboard.OverviewPage(_user));
+            else
+            {
+                // Navigate to default page
+                MainFrame.Navigate(new Views.Dashboard.OverviewPage(_user));
+            }
         }
 
         private void Nav_Click(object sender, RoutedEventArgs e)

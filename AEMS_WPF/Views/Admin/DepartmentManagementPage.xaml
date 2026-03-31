@@ -1,0 +1,180 @@
+﻿<Page x:Class="AEMS_WPF.Views.Admin.DepartmentManagementPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      Title="Quản lý Phòng ban" Background="#F4F6F9" FontFamily="Segoe UI"
+      d:DesignHeight="900" d:DesignWidth="1200">
+
+    <Page.Resources>
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#000000" BlurRadius="10" ShadowDepth="2" Opacity="0.03"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="InputStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#F8FAFC"/>
+            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#334155"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.LayoutTransform>
+            <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+        </Grid.LayoutTransform>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="40,30">
+            <StackPanel>
+
+                <Grid Margin="0,0,0,30">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button Content="←" Background="White" Foreground="#475569" BorderBrush="#CBD5E1" BorderThickness="1" Width="42" Height="42" FontWeight="Bold" FontSize="18" Cursor="Hand" Click="BtnBack_Click" Margin="0,0,15,0" VerticalAlignment="Top">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <StackPanel>
+                            <TextBlock Text="Quản lý Phòng ban" FontSize="32" FontWeight="Bold" Foreground="#0F172A"/>
+                            <TextBlock Text="Quản trị danh sách phòng ban trong hệ thống." FontSize="15" Foreground="#64748B" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="#3B82F6" Foreground="White" BorderThickness="0" Padding="20,12" Cursor="Hand" Click="BtnCreateNewDepartment_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🏢 +" FontSize="16" Margin="0,0,8,0"/>
+                            <TextBlock Text="Tạo Mới Phòng Ban" FontWeight="SemiBold" FontSize="15" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+                <Border Style="{StaticResource CardStyle}" Padding="25" Margin="0,0,0,25">
+                    <StackPanel>
+                        <TextBlock Text="▼ BỘ LỌC &amp; TÌM KIẾM" FontSize="13" FontWeight="Bold" Foreground="#64748B" Margin="0,0,0,15"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                                <TextBlock Text="TÌM KIẾM" FontSize="12" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,8"/>
+                                <TextBox x:Name="txtSearch" Style="{StaticResource InputStyle}" Tag="🔍 Tên hoặc mã phòng ban..." Height="42">
+                                    <TextBox.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="6"/>
+                                        </Style>
+                                    </TextBox.Resources>
+                                </TextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+                                <Button Content="🔍 Lọc kết quả" Background="#3B82F6" Foreground="White" BorderThickness="0" Padding="20,0" Height="42" FontWeight="SemiBold" Cursor="Hand" Margin="0,0,10,0" Click="btnFilter_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="6"/>
+                                        </Style>
+                                    </Button.Resources>
+                                </Button>
+                                <Button Content="✕" Background="#F1F5F9" Foreground="#64748B" BorderBrush="#E2E8F0" BorderThickness="1" Width="42" Height="42" FontWeight="Bold" Cursor="Hand" Click="btnClearFilter_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="6"/>
+                                        </Style>
+                                    </Button.Resources>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" BorderBrush="#EEF2F6" BorderThickness="0,0,0,1" Padding="25,20">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="TÊN PHÒNG BAN" FontWeight="Bold" Foreground="#94A3B8" FontSize="12"/>
+                                <TextBlock Grid.Column="1" Text="MÃ PHÒNG BAN" FontWeight="Bold" Foreground="#94A3B8" FontSize="12"/>
+                                <TextBlock Grid.Column="2" Text="THAO TÁC" FontWeight="Bold" Foreground="#94A3B8" FontSize="12" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
+
+                        <StackPanel Grid.Row="1">
+                            <ItemsControl x:Name="icDepartments">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#F1F5F9" BorderThickness="0,0,0,1" Padding="25,18">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2*"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="120"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" Foreground="#0F172A" FontSize="14" VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,20,0"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Code}" Foreground="#64748B" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"/>
+
+                                                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <Button Content="✏️" Background="Transparent" Foreground="#94A3B8" BorderBrush="#E2E8F0" BorderThickness="1" Width="32" Height="32" Margin="0,0,8,0" Cursor="Hand" Click="BtnEdit_Click">
+                                                        <Button.Resources>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="CornerRadius" Value="6"/>
+                                                            </Style>
+                                                        </Button.Resources>
+                                                    </Button>
+                                                    <Button Content="🗑️" Background="Transparent" Foreground="#EF4444" BorderBrush="#E2E8F0" BorderThickness="1" Width="32" Height="32" Margin="0" Cursor="Hand" Click="BtnDelete_Click">
+                                                        <Button.Resources>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="CornerRadius" Value="6"/>
+                                                            </Style>
+                                                        </Button.Resources>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
+                        <Border Grid.Row="2" Padding="25,15" BorderBrush="#EEF2F6" BorderThickness="0,1,0,0">
+                            <Grid>
+                                <TextBlock Text="Hiển thị tất cả phòng ban" Foreground="#64748B" FontSize="13" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

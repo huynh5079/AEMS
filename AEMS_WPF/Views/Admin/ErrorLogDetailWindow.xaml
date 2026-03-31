@@ -1,0 +1,82 @@
+﻿<Window x:Class="AEMS_WPF.Views.Admin.ErrorLogDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Chi tiết lỗi" Height="680" Width="900"
+        WindowStartupLocation="CenterOwner" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent">
+
+    <Border Background="White" CornerRadius="12" BorderBrush="#E0E0E0" BorderThickness="1">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="20" Direction="270" ShadowDepth="5" Opacity="0.2"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="0" Margin="20,15" Background="#F8F9FA">
+                <Button Content="✕" DockPanel.Dock="Right" Click="BtnClose_Click"
+                        Background="Transparent" BorderThickness="0" Foreground="#757575"
+                        FontSize="18" Cursor="Hand" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="⚠️" Foreground="#D32F2F" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Error Detail" FontSize="20" FontWeight="Bold" Foreground="#1A237E" VerticalAlignment="Center"/>
+                </StackPanel>
+            </DockPanel>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="25">
+                <StackPanel>
+                    <TextBlock Text="Exception Type:" FontWeight="SemiBold" Foreground="#37474F" Margin="0,0,0,5"/>
+                    <TextBlock x:Name="txtExceptionType" Text="Exception" Foreground="#D32F2F" Margin="0,0,0,20" TextWrapping="Wrap"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                        <TextBlock Text="Source:" FontWeight="SemiBold" Foreground="#37474F" Margin="0,0,10,0"/>
+                        <Border Background="#212121" CornerRadius="4" Padding="8,4">
+                            <TextBlock x:Name="txtSource" Text="AuthController.Login" Foreground="White" FontFamily="Consolas"/>
+                        </Border>
+                    </StackPanel>
+
+                    <TextBlock Text="Message:" FontWeight="SemiBold" Foreground="#37474F" Margin="0,0,0,8"/>
+                    <Border Background="#ECEFF1" CornerRadius="6" Padding="15" Margin="0,0,0,20">
+                        <TextBlock x:Name="txtMessage" Text="Email hoặc mật khẩu không chính xác." 
+                                   Foreground="#263238" TextWrapping="Wrap" LineHeight="20"/>
+                    </Border>
+
+                    <TextBlock Text="Stack Trace:" FontWeight="SemiBold" Foreground="#37474F" Margin="0,0,0,8"/>
+                    <Border Background="#212121" CornerRadius="6" Padding="15" Height="250">
+                        <TextBox x:Name="txtStackTrace" Text="... stack trace content ..." 
+                                 Background="Transparent" Foreground="#E0E0E0" BorderThickness="0"
+                                 FontFamily="Consolas" FontSize="13" AcceptsReturn="True" 
+                                 TextWrapping="NoWrap" IsReadOnly="True"
+                                 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20" Background="#F8F9FA">
+                <Button Content="Close" Click="BtnClose_Click" Width="100" Height="40" 
+                        Background="#757575" Foreground="White" FontWeight="SemiBold" Margin="0,0,10,0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="📋 Copy All" Click="BtnCopyAll_Click" Width="120" Height="40" 
+                        Background="#2962FF" Foreground="White" FontWeight="SemiBold">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

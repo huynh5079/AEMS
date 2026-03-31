@@ -1,0 +1,159 @@
+﻿<Page x:Class="AEMS_WPF.Views.Admin.CreateTopicPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      Title="Tạo mới Topic" Background="#F0F2F5" d:DesignHeight="900" d:DesignWidth="1200">
+
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,25">
+            <Button x:Name="btnBack" DockPanel.Dock="Left" Background="Transparent" BorderThickness="0" 
+                    Cursor="Hand" Margin="0,0,20,0" VerticalAlignment="Center" Click="BtnBack_Click" ToolTip="Quay về trang Quản lý">
+                <Border Background="White" Width="42" Height="42" CornerRadius="21">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="8" Direction="270" ShadowDepth="1" Opacity="0.05"/>
+                    </Border.Effect>
+                    <TextBlock Text="⬅" FontSize="18" Foreground="#1A237E" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,2,0"/>
+                </Border>
+            </Button>
+
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Create Topic" FontSize="26" FontWeight="ExtraBold" Foreground="#181C32"/>
+                <TextBlock Text="Add a new event topic to the system" Foreground="#A1A5B7" FontSize="13" Margin="0,4,0,0"/>
+            </StackPanel>
+        </DockPanel>
+
+        <Border Grid.Row="1" Background="White" CornerRadius="12" Padding="30">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.05"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Topic Details" FontSize="16" FontWeight="Bold" Foreground="#181C32"/>
+
+                <Rectangle Grid.Row="1" Height="1" Fill="#ECEFF1" Margin="0,20"/>
+
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,0,0,20">
+                    <StackPanel>
+                        <StackPanel Margin="0,0,0,25">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <TextBlock Text="Name" FontSize="14" FontWeight="SemiBold" Foreground="#181C32"/>
+                                <TextBlock Text="*" FontSize="14" Foreground="#F1416C" Margin="4,0,0,0"/>
+                            </StackPanel>
+
+                            <Grid>
+                                <TextBox x:Name="txtTopicName" Height="45" FontSize="14" Padding="15,0"
+                                         VerticalContentAlignment="Center" BorderBrush="#E1E3EA" BorderThickness="1">
+                                    <TextBox.Resources>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius" Value="6"/>
+                                        </Style>
+                                    </TextBox.Resources>
+                                </TextBox>
+                                <TextBlock Text="Enter topic name..." Foreground="#A1A5B7" IsHitTestVisible="False"
+                                           VerticalAlignment="Center" Margin="16,0" FontSize="14">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=txtTopicName}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <TextBlock Text="Description" FontSize="14" FontWeight="SemiBold" Foreground="#181C32" Margin="0,0,0,8"/>
+
+                            <Border BorderBrush="#CFD8DC" BorderThickness="1" CornerRadius="6">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Background="#F8F9FA" Padding="8,4" CornerRadius="6,6,0,0" BorderBrush="#CFD8DC" BorderThickness="0,0,0,1">
+                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                                <TextBlock Text="𝐁" FontSize="15" Margin="5,0" FontWeight="Bold" Foreground="#455A64" Cursor="Hand" ToolTip="Bold"/>
+                                                <TextBlock Text="𝐼" FontSize="15" Margin="5,0" FontStyle="Italic" Foreground="#455A64" Cursor="Hand" ToolTip="Italic"/>
+                                                <TextBlock Text="U" FontSize="15" Margin="5,0" TextDecorations="Underline" Foreground="#455A64" Cursor="Hand" ToolTip="Underline"/>
+                                            </StackPanel>
+
+                                            <Rectangle Width="1" Fill="#CFD8DC" Margin="5,3"/>
+
+                                            <StackPanel Orientation="Horizontal" Margin="10,0">
+                                                <TextBlock Text="🔗" FontSize="13" Margin="5,0" Foreground="#455A64" Cursor="Hand" ToolTip="Link"/>
+                                                <TextBlock Text="🖼" FontSize="13" Margin="5,0" Foreground="#455A64" Cursor="Hand" ToolTip="Image"/>
+                                                <TextBlock Text="≡" FontSize="16" Margin="5,0" Foreground="#455A64" Cursor="Hand" ToolTip="Ordered List"/>
+                                                <TextBlock Text="≡" FontSize="16" Margin="5,0" Foreground="#455A64" Cursor="Hand" ToolTip="Unordered List"/>
+                                            </StackPanel>
+
+                                            <Rectangle Width="1" Fill="#CFD8DC" Margin="5,3"/>
+
+                                            <StackPanel Orientation="Horizontal" Margin="10,0">
+                                                <TextBlock Text="≡" FontSize="16" Margin="5,0" Foreground="#455A64" Cursor="Hand" ToolTip="Align Left" RenderTransformOrigin="0.5,0.5">
+                                                    <TextBlock.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform ScaleX="-1"/>
+                                                        </TransformGroup>
+                                                    </TextBlock.RenderTransform>
+                                                </TextBlock>
+                                                <TextBlock Text="≡" FontSize="16" Margin="5,0" Foreground="#455A64" Cursor="Hand" ToolTip="Align Center"/>
+                                                <TextBlock Text="≡" FontSize="16" Margin="5,0" Foreground="#455A64" Cursor="Hand" ToolTip="Align Right"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <TextBox x:Name="txtTopicDescription" Grid.Row="1" Height="250" FontSize="14" Padding="15"
+                                             VerticalContentAlignment="Top" BorderThickness="0" Background="Transparent"
+                                             TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    </TextBox>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                    <Button x:Name="btnCancel" Content="Cancel" Width="100" Height="42" 
+                            Background="#F1F3F4" Foreground="#5F6368" FontWeight="SemiBold" FontSize="14" 
+                            BorderThickness="1" BorderBrush="#CFD8DC" Margin="0,0,12,0" Cursor="Hand" Click="BtnCancel_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="btnSave" Content="Save Changes" Width="140" Height="42" 
+                            Background="#2962FF" Foreground="White" FontWeight="Bold" FontSize="14" 
+                            BorderThickness="0" Cursor="Hand" Click="BtnSave_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

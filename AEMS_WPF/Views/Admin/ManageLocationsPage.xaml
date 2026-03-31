@@ -1,0 +1,463 @@
+﻿<Page x:Class="AEMS_WPF.Views.Admin.ManageLocationsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      Title="Manage Locations" Background="#F0F2F5" d:DesignHeight="1200" d:DesignWidth="1600">
+
+    <Page.Resources>
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.7"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="PageBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E4E6EF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#5E6278"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Margin" Value="4,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F5F8FA"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="0" Margin="0,0,0,25">
+                <Button x:Name="btnBack" DockPanel.Dock="Left" Background="Transparent" BorderThickness="0" 
+                        Cursor="Hand" Margin="0,0,20,0" VerticalAlignment="Top" Click="BtnBack_Click" ToolTip="Quay về Dashboard">
+                    <Border Background="White" Width="48" Height="48" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="1" Opacity="0.05"/>
+                        </Border.Effect>
+                        <TextBlock Text="⬅" FontSize="20" Foreground="#1A237E" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Button>
+
+                <StackPanel>
+                    <TextBlock Text="Manage Locations" FontSize="28" FontWeight="ExtraBold" Foreground="#1A237E"/>
+                    <TextBlock Text="Danh sách các địa điểm tổ chức sự kiện trong hệ thống AEMS" Foreground="#757575" FontSize="14" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <Button x:Name="btnAddNew" DockPanel.Dock="Right" HorizontalAlignment="Right"
+                        Background="#2962FF" Foreground="White" BorderThickness="0" 
+                        Padding="20,10" Cursor="Hand" Click="BtnAddLocation_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="8"/>
+                        </Style>
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="➕" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Add Location" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </DockPanel>
+
+            <Grid Grid.Row="1" Margin="0,0,0,25">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="White" CornerRadius="12" Padding="20" Margin="0,0,15,0">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.05"/>
+                    </Border.Effect>
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Total Locations" FontSize="14" FontWeight="SemiBold" Foreground="#A1A5B7"/>
+                            <TextBlock Text="{Binding TotalCount}" FontSize="28" FontWeight="Bold" Foreground="#181C32" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Background="#F1FAFF" Width="40" Height="40" CornerRadius="8">
+                            <TextBlock Text="🏢" FontSize="20" Foreground="#009EF7" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" Background="White" CornerRadius="12" Padding="20" Margin="0,0,15,0">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.05"/>
+                    </Border.Effect>
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Available" FontSize="14" FontWeight="SemiBold" Foreground="#A1A5B7"/>
+                            <TextBlock Text="{Binding AvailableCount}" FontSize="28" FontWeight="Bold" Foreground="#181C32" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Background="#E8FFF3" Width="40" Height="40" CornerRadius="8">
+                            <TextBlock Text="✅" FontSize="20" Foreground="#50CD89" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="2" Background="White" CornerRadius="12" Padding="20" Margin="0,0,15,0">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.05"/>
+                    </Border.Effect>
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Occupied" FontSize="14" FontWeight="SemiBold" Foreground="#A1A5B7"/>
+                            <TextBlock Text="{Binding OccupiedCount}" FontSize="28" FontWeight="Bold" Foreground="#181C32" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FFF8DD" Width="40" Height="40" CornerRadius="8">
+                            <TextBlock Text="👥" FontSize="20" Foreground="#FFC700" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="3" Background="White" CornerRadius="12" Padding="20" Margin="0,0,15,0">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.05"/>
+                    </Border.Effect>
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Maintenance" FontSize="14" FontWeight="SemiBold" Foreground="#A1A5B7"/>
+                            <TextBlock Text="{Binding MaintenanceCount}" FontSize="28" FontWeight="Bold" Foreground="#181C32" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FFF5F8" Width="40" Height="40" CornerRadius="8">
+                            <TextBlock Text="🛠️" FontSize="20" Foreground="#F1416C" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="4" Background="White" CornerRadius="12" Padding="20">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.05"/>
+                    </Border.Effect>
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Total Capacity" FontSize="14" FontWeight="SemiBold" Foreground="#A1A5B7"/>
+                            <TextBlock Text="{Binding TotalCapacity}" FontSize="28" FontWeight="Bold" Foreground="#181C32" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Background="#F8F5FF" Width="40" Height="40" CornerRadius="8">
+                            <TextBlock Text="📏" FontSize="20" Foreground="#7239EA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Border Grid.Row="2" Background="White" CornerRadius="8" Padding="15" Margin="0,0,0,25">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="1" Opacity="0.05"/>
+                </Border.Effect>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Background="#F5F8FA" CornerRadius="6" Margin="0,0,15,0">
+                        <Grid>
+                            <TextBlock Text="🔍" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" 
+                                       Foreground="#A1A5B7" FontSize="16" IsHitTestVisible="False"/>
+
+                            <TextBox x:Name="txtSearch" Height="45" Background="Transparent" BorderThickness="0" 
+                                     VerticalContentAlignment="Center" FontSize="14" Foreground="#181C32" Padding="40,0,15,0"/>
+
+                            <TextBlock Text="Search locations (Name, Address)..." VerticalAlignment="Center" HorizontalAlignment="Left" Margin="42,0,0,0" 
+                                       Foreground="#A1A5B7" FontSize="14" IsHitTestVisible="False">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=txtSearch}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="1" Background="#F5F8FA" CornerRadius="6" Margin="0,0,15,0" Width="160">
+                        <ComboBox x:Name="cbFilterStatus" Height="45" Background="Transparent" BorderThickness="0" 
+                                  VerticalContentAlignment="Center" FontSize="14" Foreground="#5E6278" Padding="10,0"
+                                  Cursor="Hand">
+                        </ComboBox>
+                    </Border>
+
+                    <Button x:Name="btnSearch" Grid.Column="2" Content="Search" Width="100" Height="45" 
+                            Background="#2962FF" Foreground="White" FontWeight="Bold" FontSize="14" 
+                            Cursor="Hand" Click="BtnSearch_Click" Margin="0,0,10,0">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="btnClear" Grid.Column="3" Content="Clear" Width="90" Height="45" 
+                            Background="#F5F8FA" Foreground="#7E8299" FontWeight="Bold" FontSize="14" 
+                            Cursor="Hand" Click="BtnClear_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="3" Background="White" CornerRadius="12" Padding="10" Margin="0,0,0,20">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.1"/>
+                </Border.Effect>
+
+                <DataGrid x:Name="dgvLocations" AutoGenerateColumns="False" CanUserAddRows="False" 
+                          IsReadOnly="True" BorderThickness="0" Background="White" 
+                          RowHeight="70" FontSize="14" GridLinesVisibility="None" SelectionMode="Single"
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#F8F9FA"/>
+                            <Setter Property="Foreground" Value="#546E7A"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Padding" Value="15,15"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                            <Setter Property="BorderBrush" Value="#ECEFF1"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="LOCATION NAME" Width="1.5*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel VerticalAlignment="Center" Margin="15,0">
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="#1A237E" FontSize="15" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding SubName}" Foreground="#A1A5B7" FontSize="12" Margin="0,4,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="ADDRESS" Binding="{Binding Address}" Width="2*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#455A64"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="15,0"/>
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="CAPACITY" Binding="{Binding Capacity}" Width="110">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#455A64"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="15,0"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="TYPE" Binding="{Binding Type}" Width="120">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#455A64"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="15,0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTemplateColumn Header="STATUS" Width="140">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border x:Name="StatusBadge" CornerRadius="8" Padding="12,6" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0">
+                                        <TextBlock x:Name="StatusText" Text="{Binding Status}" FontSize="12" FontWeight="Bold"/>
+                                    </Border>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Status}" Value="Available">
+                                            <Setter TargetName="StatusBadge" Property="Background" Value="#E8FFF3"/>
+                                            <Setter TargetName="StatusText" Property="Foreground" Value="#50CD89"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Occupied">
+                                            <Setter TargetName="StatusBadge" Property="Background" Value="#FFF8DD"/>
+                                            <Setter TargetName="StatusText" Property="Foreground" Value="#FFC700"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Maintenance">
+                                            <Setter TargetName="StatusBadge" Property="Background" Value="#FFF5F8"/>
+                                            <Setter TargetName="StatusText" Property="Foreground" Value="#F1416C"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="UPDATED" Binding="{Binding UpdatedAt, StringFormat='dd/MM/yyyy'}" Width="120">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#757575"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="15,0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTemplateColumn Header="ACTION" Width="140">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Button Width="38" Height="38" Background="#F1FAFF" BorderThickness="0" Margin="0,0,10,0" 
+                                                Cursor="Hand" Click="BtnEdit_Click" ToolTip="Chỉnh sửa Location này">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="8"/>
+                                                </Style>
+                                            </Button.Resources>
+                                            <TextBlock Text="✎" FontSize="18" Foreground="#009EF7" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-2,0,0"/>
+                                        </Button>
+
+                                        <Button Width="38" Height="38" Background="#FFF5F8" BorderThickness="0" 
+                                                Cursor="Hand" Click="BtnDelete_Click" ToolTip="Xóa Location này">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="8"/>
+                                                </Style>
+                                            </Button.Resources>
+                                            <TextBlock Text="🗑" FontSize="16" Foreground="#F1416C" FontFamily="Segoe UI Emoji" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-2,0,0"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+
+            <Grid Grid.Row="4" Margin="0,0,0,20">
+                <TextBlock Text="{Binding PaginationInfo}" Foreground="#7E8299" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="13" FontWeight="SemiBold"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Click="BtnPrev_Click" Cursor="Hand" Margin="0" Background="White" Foreground="#5E6278" BorderBrush="#E4E6EF" Height="34" MinWidth="34">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="6,0,0,6">
+                                    <TextBlock Text="&lt;" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#F5F8FA"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <ItemsControl ItemsSource="{Binding PageNumbers}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Click="BtnPage_Click" Content="{Binding PageNumber}" Cursor="Hand" Margin="-1,0,0,0" Height="34" MinWidth="34">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="White"/>
+                                            <Setter Property="Foreground" Value="#5E6278"/>
+                                            <Setter Property="BorderBrush" Value="#E4E6EF"/>
+                                            <Setter Property="FontSize" Value="13"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                    <Setter Property="Background" Value="#2962FF"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                    <Setter Property="BorderBrush" Value="#2962FF"/>
+                                                </DataTrigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding IsActive}" Value="False"/>
+                                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Background" Value="#F5F8FA"/>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <Button Click="BtnNext_Click" Cursor="Hand" Margin="-1,0,0,0" Background="White" Foreground="#5E6278" BorderBrush="#E4E6EF" Height="34" MinWidth="34">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="0,6,6,0">
+                                    <TextBlock Text="&gt;" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#F5F8FA"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </ScrollViewer>
+</Page>
