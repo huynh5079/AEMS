@@ -1,0 +1,502 @@
+﻿<Page x:Class="AEMS_WPF.Views.Admin.AdminDashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      mc:Ignorable="d" 
+      Title="Admin Dashboard" Background="#F5F8FA" FontFamily="Segoe UI"
+      d:DesignHeight="1000" d:DesignWidth="1400">
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="TextDark" Color="#181C32"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#A1A5B7"/>
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#009EF7"/>
+        <SolidColorBrush x:Key="SuccessGreen" Color="#50CD89"/>
+        <SolidColorBrush x:Key="DangerRed" Color="#F1416C"/>
+        <SolidColorBrush x:Key="WarningYellow" Color="#FFC700"/>
+
+        <Style x:Key="MetronicCard" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="25"/>
+            <Setter Property="Margin" Value="0,0,20,20"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#000000" BlurRadius="15" ShadowDepth="2" Opacity="0.04"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconBox" TargetType="Border">
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="46"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="MenuItemLightStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#9AA4B2"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Padding" Value="15,12"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F5F8FA"/>
+                    <Setter Property="Foreground" Value="#0F172A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="MenuItemActiveStyle" TargetType="Button" BasedOn="{StaticResource MenuItemLightStyle}">
+            <Setter Property="Background" Value="#0B1426"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1E293B"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SubMenuItemStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#9AA4B2"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1E293B"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.LayoutTransform>
+            <ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+        </Grid.LayoutTransform>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="White" BorderBrush="#EEF2F6" BorderThickness="0,0,1,0">
+            <DockPanel Margin="25,30,25,25">
+
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,40">
+                    <Border Background="#0B1426" CornerRadius="8" Width="38" Height="38">
+                        <TextBlock Text="🏛️" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="AEMS" Foreground="#0B1426" FontSize="22" FontWeight="Bold" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,0">
+                    <Separator Background="#EEF2F6" Margin="0,0,0,20"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                        <Border Background="#F1FAFF" CornerRadius="20" Width="40" Height="40">
+                            <TextBlock Text="A" Foreground="{StaticResource PrimaryBlue}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+                        </Border>
+                        <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="System Admin" Foreground="#0F172A" FontWeight="SemiBold" FontSize="14"/>
+                            <TextBlock Text="Admin Role" Foreground="#9AA4B2" FontSize="12"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button Content="Sign Out" Click="BtnSignOut_Click" Background="Transparent" BorderThickness="0" Foreground="#F87171" HorizontalAlignment="Left" Cursor="Hand" FontSize="15" FontWeight="SemiBold"/>
+                </StackPanel>
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel>
+                        <TextBlock Text="MAIN MENU" Foreground="#9BA3AF" FontSize="12" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <Button Style="{StaticResource MenuItemActiveStyle}" Click="BtnNavDashboard_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🪟" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Overview" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <StackPanel Margin="0,0,0,5">
+                            <Button x:Name="BtnNavEvents" Style="{StaticResource MenuItemLightStyle}" Click="BtnNavEvents_Click" Margin="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="IconEvents" Grid.Column="0" Text="📅" Margin="0,0,15,0" FontSize="18"/>
+                                    <TextBlock x:Name="TxtEventsData" Grid.Column="1" Text="Events Data" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="TxtEventsArrow" Grid.Column="2" Text="▼" FontSize="10" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Button>
+
+                            <Border x:Name="SubMenuEventsData" Background="#0B1426" CornerRadius="8" Margin="0,5,0,0" Padding="5" Visibility="Collapsed">
+                                <StackPanel>
+                                    <Button Style="{StaticResource SubMenuItemStyle}" Click="MenuDepartment_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="🏢" Margin="0,0,15,0" FontSize="16"/>
+                                            <TextBlock Text="Departments" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Style="{StaticResource SubMenuItemStyle}" Click="BtnNavTopics_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="🏷️" Margin="0,0,15,0" FontSize="16"/>
+                                            <TextBlock Text="Topics" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Style="{StaticResource SubMenuItemStyle}" Click="BtnNavLocations_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="📍" Margin="0,0,15,0" FontSize="16"/>
+                                            <TextBlock Text="Locations" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavCommunity_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="👥" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Community" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavReports_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📊" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Reports" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavFeedback_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="💬" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Feedback" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Text="SYSTEM" Foreground="#9BA3AF" FontSize="12" FontWeight="Bold" Margin="0,30,0,15"/>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavSettings_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚙️" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Settings" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource MenuItemLightStyle}" Click="BtnNavSecurity_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🛡️" Margin="0,0,15,0" FontSize="18"/>
+                                <TextBlock Text="Security" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid Margin="30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Style="{StaticResource MetronicCard}" Cursor="Hand" MouseLeftButtonDown="SystemErrorsCard_Click">
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="System Errors" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}"/>
+                                <TextBlock Text="{Binding SystemErrorsCount, FallbackValue='0'}" FontSize="28" FontWeight="Bold" Foreground="{StaticResource TextDark}" Margin="0,8,0,0"/>
+                                <TextBlock Text="Requires attention" FontSize="12" Foreground="{StaticResource DangerRed}" Margin="0,5,0,0" FontWeight="Medium"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource IconBox}" Background="#FFF5F8">
+                                <TextBlock Text="⚠️" FontSize="20" Foreground="{StaticResource DangerRed}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Emoji"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="1" Style="{StaticResource MetronicCard}"
+                            Cursor="Hand" 
+                            MouseLeftButtonDown="NewUsersCard_Click"
+                            >
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="New Users" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}"/>
+                                <TextBlock Text="{Binding NewUsersCount, FallbackValue='0'}" FontSize="28" FontWeight="Bold" Foreground="{StaticResource TextDark}" Margin="0,8,0,0"/>
+                                <TextBlock Text="Total registered" FontSize="12" Foreground="{StaticResource PrimaryBlue}" Margin="0,5,0,0" FontWeight="Medium"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource IconBox}" Background="#F1FAFF">
+                                <TextBlock Text="👥" FontSize="20" Foreground="{StaticResource PrimaryBlue}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Emoji"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="2" Style="{StaticResource MetronicCard}">
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="Active Students" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}"/>
+                                <TextBlock Text="{Binding ActiveStudentsCount, FallbackValue='0'}" FontSize="28" FontWeight="Bold" Foreground="{StaticResource TextDark}" Margin="0,8,0,0"/>
+                                <TextBlock Text="System end-users" FontSize="12" Foreground="{StaticResource SuccessGreen}" Margin="0,5,0,0" FontWeight="Medium"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource IconBox}" Background="#E8FFF3">
+                                <TextBlock Text="🎓" FontSize="20" Foreground="{StaticResource SuccessGreen}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Emoji"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="3" Style="{StaticResource MetronicCard}" Margin="0,0,0,20">
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="Staff Member" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}"/>
+                                <TextBlock Text="{Binding StaffMemberCount, FallbackValue='0'}" FontSize="28" FontWeight="Bold" Foreground="{StaticResource TextDark}" Margin="0,8,0,0"/>
+                                <TextBlock Text="Organizers &amp; Approvers" FontSize="12" Foreground="{StaticResource WarningYellow}" Margin="0,5,0,0" FontWeight="Medium"/>
+                            </StackPanel>
+                            <Border Style="{StaticResource IconBox}" Background="#FFF8DD">
+                                <TextBlock Text="💼" FontSize="20" Foreground="{StaticResource WarningYellow}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Emoji"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Style="{StaticResource MetronicCard}" Padding="30">
+                        <Grid Height="300">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <DockPanel Grid.Row="0" Margin="0,0,0,20">
+                                <ComboBox x:Name="cboTimeRange" DockPanel.Dock="Right" Width="130" Height="35" 
+                      VerticalContentAlignment="Center" BorderBrush="#EEF2F6" Cursor="Hand"
+                      SelectionChanged="cboTimeRange_SelectionChanged" Background="#F1FAFF" Foreground="{StaticResource PrimaryBlue}" FontWeight="SemiBold">
+                                    <ComboBoxItem Content="Last 7 Days" IsSelected="True" Tag="7"/>
+                                    <ComboBoxItem Content="Last 30 Days" Tag="30"/>
+                                </ComboBox>
+
+                                <StackPanel>
+                                    <TextBlock Text="System Activity Trend" FontSize="16" FontWeight="Bold" Foreground="{StaticResource TextDark}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="System error volume monitored" Foreground="{StaticResource TextMuted}" FontSize="13" Margin="0,4,0,0"/>
+                                </StackPanel>
+                            </DockPanel>
+
+                            <lvc:CartesianChart Grid.Row="1" x:Name="chartActivity" DataClick="Chart_OnDataClick" Hoverable="True" Cursor="Hand" Margin="0,10,0,0">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis x:Name="axisX" Labels="{Binding DateLabels}">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator Step="1" StrokeThickness="0"/>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis MinValue="0">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator Stroke="#EEF2F6" StrokeThickness="1"/>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="1" Style="{StaticResource MetronicCard}" Margin="0,0,0,20" Padding="30">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="User Category" FontSize="16" FontWeight="Bold" Foreground="{StaticResource TextDark}" Margin="0,0,0,25"/>
+
+                            <Grid Grid.Row="1" Height="170" Margin="0,0,0,30">
+                                <lvc:PieChart x:Name="chartUserCategory" InnerRadius="50" Hoverable="True" LegendLocation="None" AnimationsSpeed="0:0:0.5" StartingRotationAngle="180">
+                                    <lvc:PieChart.ChartLegend>
+                                        <lvc:DefaultLegend Visibility="Collapsed"/>
+                                    </lvc:PieChart.ChartLegend>
+                                </lvc:PieChart>
+
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False" Margin="0,10,0,0">
+                                    <TextBlock Text="{Binding NewUsersCount, FallbackValue='0'}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextDark}" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Total Users" FontSize="11" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <StackPanel Grid.Row="2" VerticalAlignment="Top">
+
+                                <Grid Margin="0,0,0,18">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0" Background="#181C32" Width="10" Height="10" CornerRadius="5" Margin="0,2,12,0" VerticalAlignment="Top"/>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Top">
+                                        <TextBlock Text="Students" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextDark}"/>
+                                        <TextBlock Text="{Binding StudentPercentage, StringFormat={}{0}%, FallbackValue='0%'}" FontSize="12" Foreground="{StaticResource TextMuted}" Margin="0,4,0,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <TextBlock Text="{Binding ActiveStudentsCount, FallbackValue='0'}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource TextDark}" HorizontalAlignment="Right"/>
+                                        <TextBlock Text="users" FontSize="11" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Margin="0,0,0,18">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0" Background="{StaticResource PrimaryBlue}" Width="10" Height="10" CornerRadius="5" Margin="0,2,12,0" VerticalAlignment="Top"/>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Top">
+                                        <TextBlock Text="Staff (Org &amp; Appr)" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextDark}"/>
+                                        <TextBlock Text="{Binding StaffPercentage, StringFormat={}{0}%, FallbackValue='0%'}" FontSize="12" Foreground="{StaticResource TextMuted}" Margin="0,4,0,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <TextBlock Text="{Binding StaffMemberCount, FallbackValue='0'}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource TextDark}" HorizontalAlignment="Right"/>
+                                        <TextBlock Text="users" FontSize="11" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0" Background="{StaticResource SuccessGreen}" Width="10" Height="10" CornerRadius="5" Margin="0,2,12,0" VerticalAlignment="Top"/>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Top">
+                                        <TextBlock Text="Administrators" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextDark}"/>
+                                        <TextBlock Text="{Binding AdminPercentage, StringFormat={}{0}%, FallbackValue='0%'}" FontSize="12" Foreground="{StaticResource TextMuted}" Margin="0,4,0,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <TextBlock Text="{Binding AdminCount, FallbackValue='0'}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource TextDark}" HorizontalAlignment="Right"/>
+                                        <TextBlock Text="System" FontSize="11" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Border Grid.Row="2" Style="{StaticResource MetronicCard}" Padding="30" Margin="0,0,20,20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="0,0,0,25">
+                            <TextBlock Text="Recent Educational Events" FontSize="16" FontWeight="Bold" Foreground="{StaticResource TextDark}" VerticalAlignment="Center"/>
+                            <Button Content="View All" HorizontalAlignment="Right" Background="#F1FAFF" Foreground="{StaticResource PrimaryBlue}" BorderThickness="0" Padding="15,8" FontWeight="SemiBold" Cursor="Hand"/>
+                        </Grid>
+                        <StackPanel Grid.Row="1">
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="45"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="EVENT NAME" Foreground="{StaticResource TextMuted}" FontSize="12" FontWeight="Bold" />
+                                <TextBlock Grid.Column="2" Text="DEPARTMENT" Foreground="{StaticResource TextMuted}" FontSize="12" FontWeight="Bold" />
+                                <TextBlock Grid.Column="3" Text="DATE &amp; TIME" Foreground="{StaticResource TextMuted}" FontSize="12" FontWeight="Bold" />
+                                <TextBlock Grid.Column="4" Text="CAPACITY" Foreground="{StaticResource TextMuted}" FontSize="12" FontWeight="Bold" />
+                                <TextBlock Grid.Column="5" Text="STATUS" Foreground="{StaticResource TextMuted}" FontSize="12" FontWeight="Bold" />
+                            </Grid>
+                            <Border Height="1" Background="#EFF2F5" Margin="0,0,0,5"/>
+                            <ItemsControl ItemsSource="{Binding RecentEvents}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#EFF2F5" BorderThickness="0,0,0,1" Padding="0,15">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="45"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                    <ColumnDefinition Width="150"/>
+                                                    <ColumnDefinition Width="180"/>
+                                                    <ColumnDefinition Width="100"/>
+                                                    <ColumnDefinition Width="120"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" Background="#F5F8FA" Width="32" Height="32" CornerRadius="6" HorizontalAlignment="Left">
+                                                    <TextBlock Text="📅" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Emoji"/>
+                                                </Border>
+                                                <TextBlock Grid.Column="1" Text="{Binding EventName}" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextDark}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,15,0"/>
+                                                <TextBlock Grid.Column="2" Text="{Binding DepartmentName}" FontSize="13" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,15,0"/>
+                                                <TextBlock Grid.Column="3" Text="{Binding DateTimeString}" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="👥 " FontSize="12" Foreground="{StaticResource TextMuted}"/>
+                                                    <TextBlock Text="{Binding Capacity}" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextDark}"/>
+                                                </StackPanel>
+                                                <Border Grid.Column="5" Background="{Binding StatusBgColor}" CornerRadius="6" Padding="10,6" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Status}" Foreground="{Binding StatusTextColor}" FontSize="12" FontWeight="Bold"/>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

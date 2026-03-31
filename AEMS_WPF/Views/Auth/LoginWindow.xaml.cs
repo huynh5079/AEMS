@@ -1,10 +1,14 @@
-﻿using System.Windows;
+﻿using AEMS_WPF.Views.Admin;
+using System.Windows;
 
 using BusinessLogic.DTOs.Authentication.Login;
 
 using BusinessLogic.Service.Auth;
+using BusinessLogic.Service.System;
+using DataAccess.Repositories.Abstraction;
 
 using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
 
 
 
@@ -90,8 +94,32 @@ namespace AEMS_WPF.Views.Auth
 
                     if (role == "Admin" || role == "Organizer")
                     {
-                        var dashboard = new MainWindow(result.User);
-                        dashboard.Show();
+                        // 1. Khởi tạo Cửa sổ khung mới tạo
+                        var appWindow = new MainAppWindow();
+
+                        // 2. Phân luồng tùy theo Role
+                        if (role == "Admin")
+                        {
+                            // Lấy các service cần thiết cho Dashboard từ hệ thống
+                            var uow = App.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                            var logService = App.ServiceProvider.GetRequiredService<ISystemErrorLogService>();
+
+                            // Đẩy trang AdminDashboard vào khung
+                            appWindow.RootFrame.Navigate(new AdminDashboardPage(uow, logService));
+                        }
+                        else if (role == "Approver")
+                        {
+                            MessageBox.Show("Chào mừng Approver! Giao diện đang được phát triển.");
+                            // Sau này đổi thành: appWindow.RootFrame.Navigate(new ApproverDashboardPage());
+                        }
+                        else if (role == "Organizer")
+                        {
+                            MessageBox.Show("Chào mừng Organizer! Giao diện đang được phát triển.");
+                            // Sau này đổi thành: appWindow.RootFrame.Navigate(new OrganizerDashboardPage());
+                        }
+
+                        // 3. Hiển thị cửa sổ chính và Đóng cửa sổ Login
+                        appWindow.Show();
                         this.Close();
                     }
                     else if (role == "Approver")

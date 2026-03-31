@@ -1,0 +1,258 @@
+﻿<Page x:Class="AEMS_WPF.Views.Admin.SystemErrorsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="System Error Logs" Background="#F0F2F5">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="0" Margin="0,0,0,25">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="btnBack" Click="BtnBack_Click"
+                Background="Transparent" BorderThickness="0" 
+                Cursor="Hand" Margin="0,0,15,0" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="←" FontSize="30" Foreground="#2962FF" FontWeight="Bold"/>
+                            <TextBlock Text="Quay lại" VerticalAlignment="Center" Margin="5,0,0,0" 
+                           Foreground="#2962FF" FontSize="14" FontWeight="SemiBold"/>
+                        </StackPanel>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Border Background="#2962FF" CornerRadius="8" Width="50" Height="50" Margin="0,0,15,0">
+                        <TextBlock Text="📋" FontSize="28" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="System Error Logs" FontSize="28" FontWeight="ExtraBold" Foreground="#1A237E"/>
+                        <TextBlock Text="Quản lý và theo dõi các lỗi phát sinh trong hệ thống AEMS" Foreground="#757575" FontSize="14"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <Button x:Name="btnCleanLogs" DockPanel.Dock="Right" HorizontalAlignment="Right"
+                        Background="Transparent" BorderBrush="#D32F2F" BorderThickness="1.5" Cursor="Hand"
+                        Click="BtnCleanLogs_Click" Padding="20,10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🗑" Margin="0,0,8,0" Foreground="#D32F2F"/>
+                        <TextBlock Text="Dọn dẹp Log cũ (>30 ngày)" FontWeight="SemiBold" Foreground="#D32F2F"/>
+                    </StackPanel>
+                </Button>
+            </DockPanel>
+
+            <Border Grid.Row="1" Background="White" CornerRadius="12" Padding="25" Margin="0,0,0,25">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.1"/>
+                </Border.Effect>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                        <TextBlock Text="Search Message / Source / User" 
+               FontWeight="SemiBold" 
+               Margin="0,0,0,8" 
+               Foreground="#37474F"/>
+
+                        <Grid>
+                            <TextBox x:Name="txtSearch" 
+                 Height="45" 
+                 VerticalContentAlignment="Center" 
+                 Padding="35,0,15,0" 
+                 FontSize="15" 
+                 BorderBrush="#CFD8DC" 
+                 BorderThickness="1.5"
+                 Tag="Nhập từ khóa tìm kiếm..."
+                 GotFocus="txtSearch_GotFocus"
+                 LostFocus="txtSearch_LostFocus"/>
+
+                            <TextBlock Text="🔍" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Left" 
+                   Margin="12,0,0,0" 
+                   Foreground="#90A4AE" 
+                   IsHitTestVisible="False"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="0,0,20,0">
+                        <TextBlock Text="Status Code" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#37474F"/>
+                        <ComboBox x:Name="cboStatusCode" Height="45" VerticalContentAlignment="Center" FontSize="15" BorderBrush="#CFD8DC">
+                            <ComboBoxItem Content="-- Tất cả --" IsSelected="True" Tag="All"/>
+                            <ComboBoxItem Content="200 (Success)" Tag="200"/>
+                            <ComboBoxItem Content="400 (BadRequest)" Tag="400"/>
+                            <ComboBoxItem Content="401 (Unauthorized)" Tag="401"/>
+                            <ComboBoxItem Content="403 (Forbidden)" Tag="403"/>
+                            <ComboBoxItem Content="404 (NotFound)" Tag="404"/>  
+                            <ComboBoxItem Content="500 (ServerError)" Tag="500"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <Button x:Name="btnFilter" 
+                            Grid.Column="2" 
+                            Content="Lọc Dữ Liệu" 
+                            Width="140" Height="45" 
+                            Background="#2962FF" Foreground="White" 
+                            FontWeight="Bold" FontSize="15" 
+                            Margin="0,22,0,0" Cursor="Hand" 
+                            Click="BtnFilter_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="2" Background="White" CornerRadius="12" Padding="10">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.1"/>
+                </Border.Effect>
+
+                <DataGrid x:Name="dgvErrorLogs" AutoGenerateColumns="False" CanUserAddRows="False" 
+                          IsReadOnly="True" BorderThickness="0" Background="White" 
+                          RowHeight="80" FontSize="14" GridLinesVisibility="None"
+                          HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" SelectionChanged="dgvErrorLogs_SelectionChanged">
+
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#F8F9FA"/>
+                            <Setter Property="Foreground" Value="#546E7A"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Padding" Value="15,12"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                            <Setter Property="BorderBrush" Value="#ECEFF1"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="TIME" Binding="{Binding CreatedAt, StringFormat='dd/MM/yyyy HH:mm:ss'}" Width="180"/>
+
+                        <DataGridTemplateColumn Header="STATUS" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FFEBEE" CornerRadius="6" Padding="8,5" HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding StatusCode}" Foreground="#C62828" FontWeight="Bold"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="EXCEPTION / MESSAGE" Width="5*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel VerticalAlignment="Center" Margin="10,0">
+                                        <TextBlock Text="{Binding ExceptionType}" FontWeight="Bold" FontSize="15" Foreground="#D32F2F" Margin="0,0,0,5"/>
+                                        <TextBlock Text="{Binding ExceptionMessage}" Foreground="#455A64" FontSize="13" TextWrapping="Wrap" MaxHeight="45"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="USER" Width="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding UserId}" 
+                    Click="UserLink_Click" 
+                    Background="Transparent" 
+                    BorderThickness="0" 
+                    Foreground="#2962FF" 
+                    Cursor="Hand"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <TextBlock Text="{TemplateBinding Content}" TextDecorations="Underline"/>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="ACTION" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Chi tiết" Background="Transparent" Foreground="#2962FF" 
+                                            FontWeight="SemiBold" Cursor="Hand" BorderThickness="0" Click="BtnViewDetail_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+            
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <TextBlock x:Name="txtPageInfo" 
+               Text="Trang 1 / 1" 
+               VerticalAlignment="Center" 
+               Margin="0,0,20,0" 
+               Foreground="#546E7A" 
+               FontSize="14" FontWeight="Medium"/>
+                <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="4" Background="White">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnPrev" Content="Trước" Click="BtnPrev_Click" Padding="12,8"
+                    Background="Transparent" BorderThickness="0,0,1,0" BorderBrush="#E0E0E0" Cursor="Hand"/>
+
+                        <ItemsControl x:Name="icPagination">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding Text}" 
+                Click="BtnPageNumber_Click"
+                IsEnabled="{Binding IsEnabled}"
+                Width="40" Height="38" 
+                Background="{Binding BgColor}" 
+                Foreground="{Binding ForeColor}" 
+                BorderThickness="0,0,1,0" 
+                BorderBrush="#E0E0E0" 
+                Cursor="Hand" 
+                FontWeight="SemiBold">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter Property="Cursor" Value="Arrow"/>
+                                                        <Setter Property="Opacity" Value="0.6"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Button x:Name="btnNext" Content="Sau" Click="BtnNext_Click" Padding="12,8"
+                    Background="Transparent" BorderThickness="0" Cursor="Hand"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+    </ScrollViewer>
+</Page>

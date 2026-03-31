@@ -1,0 +1,87 @@
+﻿<Page x:Class="AEMS_WPF.Views.Admin.EditTopicPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      Title="Chỉnh sửa Topic" Background="#F0F2F5" d:DesignHeight="900" d:DesignWidth="1200">
+
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,25">
+            <Button x:Name="btnBack" DockPanel.Dock="Left" Background="Transparent" BorderThickness="0" 
+                    Cursor="Hand" Margin="0,0,20,0" VerticalAlignment="Center" Click="BtnBack_Click">
+                <Border Background="White" Width="42" Height="42" CornerRadius="21">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="8" Direction="270" ShadowDepth="1" Opacity="0.05"/>
+                    </Border.Effect>
+                    <TextBlock Text="⬅" FontSize="18" Foreground="#1A237E" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,2,0"/>
+                </Border>
+            </Button>
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Edit Topic" FontSize="26" FontWeight="ExtraBold" Foreground="#181C32"/>
+                <TextBlock Text="Update existing event topic information" Foreground="#A1A5B7" FontSize="13" Margin="0,4,0,0"/>
+            </StackPanel>
+        </DockPanel>
+
+        <Border Grid.Row="1" Background="White" CornerRadius="12" Padding="30">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.05"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Margin="0,0,0,20">
+                    <StackPanel>
+                        <StackPanel Margin="0,0,0,25">
+                            <TextBlock Text="TopicName" FontSize="14" FontWeight="SemiBold" Foreground="#181C32" Margin="0,0,0,8"/>
+                            <Border BorderBrush="#CFD8DC" BorderThickness="1" CornerRadius="4">
+                                <TextBox x:Name="txtTopicName" Height="40" FontSize="14" Padding="15,0"
+                                         VerticalContentAlignment="Center" BorderThickness="0" Background="Transparent"/>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <TextBlock Text="Description" FontSize="14" FontWeight="SemiBold" Foreground="#181C32" Margin="0,0,0,8"/>
+                            <Border BorderBrush="#CFD8DC" BorderThickness="1" CornerRadius="4">
+                                <TextBox x:Name="txtTopicDescription" Height="150" FontSize="14" Padding="15"
+                                         VerticalContentAlignment="Top" BorderThickness="0" Background="Transparent"
+                                         TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button x:Name="btnUpdate" Content="Update" Width="100" Height="40" 
+                            Background="#007BFF" Foreground="White" FontWeight="Bold" FontSize="14" 
+                            BorderThickness="0" Margin="0,0,10,0" Cursor="Hand" Click="BtnUpdate_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="btnCancel" Content="Back" Width="80" Height="40" 
+                            Background="#6C757D" Foreground="White" FontWeight="Bold" FontSize="14" 
+                            BorderThickness="0" Cursor="Hand" Click="BtnBack_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
