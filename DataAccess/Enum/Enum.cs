@@ -21,7 +21,8 @@ namespace DataAccess.Enum
 		LessonVideo,        // Video bài học
 		Chat,                // File/hình ảnh trong chat
 		EventThumbnail,
-		EventDocument
+		EventDocument,
+		BudgetEvidence
 	}
 
 	public enum ApprovalActionEnum

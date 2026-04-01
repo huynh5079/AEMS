@@ -47,6 +47,12 @@ namespace AEMS_WPF.Views.Dashboard
             SetActiveButton(sender as Button);
         }
 
+        private void BtnNavChat_Click(object sender, RoutedEventArgs e)
+        {
+            var chat = new ChatWindow(_user);
+            chat.Show();
+        }
+
         private void BtnNavActivity_Click(object sender, RoutedEventArgs e)
         {
             OrganizerFrame.Navigate(new ActivityLogPage());

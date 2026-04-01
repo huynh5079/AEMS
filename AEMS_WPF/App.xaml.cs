@@ -9,12 +9,15 @@ using BusinessLogic.Service.Event.Sub_Service.Topic;
 using BusinessLogic.Service.Event.Sub_Service.Semester;
 using BusinessLogic.Service.Event.Semester;
 using BusinessLogic.Service.Organizer.CheckIn;
+using BusinessLogic.Service.Organizer.BudgetProposal;
 using BusinessLogic.Service.System;
 using BusinessLogic.Service.UserActivities;
 using BusinessLogic.Service.ValiDateRole.ValidateforOrganizer;
 using BusinessLogic.Service.ValidationData.Event;
 using BusinessLogic.Service.ValidationData.Loction;
 using BusinessLogic.Service.ValidationData.Topic;
+using BusinessLogic.Service.Chat.ChatforUser;
+using BusinessLogic.Service.Chat.ChatforUser.ChatPerMission;
 
 using BusinessLogic.Storage;
 using DataAccess.Entities;
@@ -75,6 +78,7 @@ namespace AEMS_WPF
             services.AddScoped<IDropdownService, DropdownService>();
             services.AddScoped<ISignalRNotifier, DummySignalRNotifier>();
             services.AddScoped<ICheckInService, CheckInService>();
+            services.AddScoped<IBudgetProposalService, BudgetProposalService>();
             
             // Validation
             services.AddScoped<IEventValidator, EventValidator>();
@@ -102,6 +106,11 @@ namespace AEMS_WPF
             services.AddScoped<ITopicValidator, TopicValidator>();
             //Semester
             services.AddScoped<ISemesterService, SemesterService>();
+            // Chat
+            services.AddScoped<IChatPermissionService, ChatPermissionService>();
+            services.AddScoped<IChatUserService, ChatUserService>();
+            services.AddSingleton<SignalRClientService>();
+
             //Agenda
              
 

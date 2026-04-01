@@ -39,13 +39,23 @@
                             </Grid.ColumnDefinitions>
                             
                             <StackPanel Grid.Column="0">
-                                <TextBlock Text="Start Date &amp; Time" Foreground="White" Margin="0,0,0,8"/>
+                                <TextBlock Text="Start Date" Foreground="White" Margin="0,0,0,8"/>
                                 <DatePicker x:Name="dpStart" Margin="0,0,0,10"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox x:Name="cbStartHour" Width="60" Margin="0,0,5,0"/>
+                                    <TextBlock Text=":" Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <ComboBox x:Name="cbStartMin" Width="60"/>
+                                </StackPanel>
                             </StackPanel>
                             
                             <StackPanel Grid.Column="2">
-                                <TextBlock Text="End Date &amp; Time" Foreground="White" Margin="0,0,0,8"/>
-                                <DatePicker x:Name="dpEnd"/>
+                                <TextBlock Text="End Date" Foreground="White" Margin="0,0,0,8"/>
+                                <DatePicker x:Name="dpEnd" Margin="0,0,0,10"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox x:Name="cbEndHour" Width="60" Margin="0,0,5,0"/>
+                                    <TextBlock Text=":" Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <ComboBox x:Name="cbEndMin" Width="60"/>
+                                </StackPanel>
                             </StackPanel>
                         </Grid>
 
@@ -158,7 +168,7 @@
                         <!-- Agenda -->
                         <TextBlock Text="AGENDA &amp; SESSIONS" Foreground="{StaticResource IndigoAccentBrush}" FontSize="12" FontWeight="Bold" Margin="0,10,0,10"/>
                         <Grid Margin="0,0,0,10">
-                            <Button x:Name="BtnAddSession" Content="+ Add Session" HorizontalAlignment="Right" Click="BtnAddSession_Click" Style="{StaticResource ModernButtonStyle}" Width="120" Height="30"/>
+                            <Button x:Name="BtnAddSession" Content="+ Add Session" HorizontalAlignment="Right" Click="BtnAddSession_Click" Style="{StaticResource ModernButtonStyle}" Width="120" Height="60"/>
                         </Grid>
                         
                         <DataGrid x:Name="dgAgenda" AutoGenerateColumns="False" CanUserAddRows="False" 

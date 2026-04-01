@@ -36,6 +36,7 @@ namespace BusinessLogic.Storage
                 UploadContext.Chat => _opt.Chat,
                 UploadContext.EventThumbnail => "events/thumbnails",
                 UploadContext.EventDocument => "events/documents",
+                UploadContext.BudgetEvidence => "events/budget",
                 _ => "others"
             };
 

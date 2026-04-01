@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +8,7 @@ using BusinessLogic.DTOs.Authentication.Login;
 using BusinessLogic.DTOs.Role.Organizer;
 using BusinessLogic.Service.Approval;
 using Microsoft.Extensions.DependencyInjection;
+using AEMS_WPF.Views.Common;
 
 namespace AEMS_WPF.Views.Dashboard
 {
@@ -163,7 +164,13 @@ namespace AEMS_WPF.Views.Dashboard
 
         private void NavNotifications_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Notifications page (not implemented).", "Notifications", MessageBoxButton.OK, MessageBoxImage.Information);
+            NavigateToPage(new NotificationPage(_user));
+        }
+
+        private void NavChat_Click(object sender, RoutedEventArgs e)
+        {
+            var chat = new ChatWindow(_user);
+            chat.Show();
         }
         private void NavApprovals_Click(object sender, RoutedEventArgs e)
         {

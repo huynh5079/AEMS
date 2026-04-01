@@ -4,6 +4,7 @@ using System.Windows;
 using BusinessLogic.DTOs.Chat;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace AEMS_WPF.Services
 {
@@ -75,17 +76,22 @@ namespace AEMS_WPF.Services
 
             try
             {
+                Debug.WriteLine($"[SignalR] Starting connection to hubs for user {userId}...");
                 if (_notificationHub.State == HubConnectionState.Disconnected)
                     await _notificationHub.StartAsync();
                     
                 if (_chatHub.State == HubConnectionState.Disconnected)
                     await _chatHub.StartAsync();
 
-                System.Diagnostics.Debug.WriteLine($"SignalR Connected as User: {userId} ({userRole}).");
+                Debug.WriteLine($"[SignalR] Connected successfully as User: {userId} ({userRole}).");
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"SignalR Connection Error: {ex.Message}");
+                Debug.WriteLine($"[SignalR] Connection Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Debug.WriteLine($"[SignalR] Inner Error: {ex.InnerException.Message}");
+                }
             }
         }
 

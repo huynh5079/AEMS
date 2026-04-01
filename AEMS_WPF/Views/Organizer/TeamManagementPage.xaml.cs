@@ -101,46 +101,37 @@ namespace AEMS_WPF.Views.Organizer
             }
         }
 
-        private void BtnEditScore_Click(object sender, RoutedEventArgs e)
+
+        private void BtnAddMember_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.DataContext is EventTeamDto team)
             {
-                // Simple score edit
-                string scoreStr = Microsoft.VisualBasic.Interaction.InputBox($"Enter score for {team.TeamName}:", "Edit Score", team.Score.ToString());
-                if (decimal.TryParse(scoreStr, out decimal newScore))
+                var selectionWindow = new ParticipantSelectionWindow() { Owner = Window.GetWindow(this) };
+                if (selectionWindow.ShowDialog() == true && selectionWindow.SelectedUser != null)
                 {
-                    // Note: IEventService might need a method to update team score
-                    // For now we simulate or use a specific update method if available
-                    MessageBox.Show("Score update would call EventService.UpdateTeamScoreAsync here.", "Note");
+                    var user = selectionWindow.SelectedUser;
+                    _ = AddMemberToTeam(team.Id, user.id, user.role);
                 }
             }
         }
 
-        private async void BtnAddMember_Click(object sender, RoutedEventArgs e)
+        private async Task AddMemberToTeam(string teamId, string userId, string role)
         {
-            if (sender is Button btn && btn.DataContext is EventTeamDto team)
+            try
             {
-                try
+                if (role == "Student")
                 {
-                    var checkInService = App.ServiceProvider.GetRequiredService<ICheckInService>();
-                    var participants = await checkInService.GetParticipantsAsync(_eventId.ToString());
-                    
-                    // Filter out participants already in this team (optional but good)
-                    var existingMemberIds = team.TeamMembers.Select(m => m.StudentId).ToList();
-                    var available = participants.Where(p => !existingMemberIds.Contains(p.StudentId)).ToList();
-
-                    var selectionWindow = new ParticipantSelectionWindow(available) { Owner = Window.GetWindow(this) };
-                    if (selectionWindow.ShowDialog() == true && selectionWindow.SelectedParticipant != null)
-                    {
-                        var student = selectionWindow.SelectedParticipant;
-                        await _eventService.AddMemberToTeamAsync(team.Id, student.StudentId, null, "Member");
-                        LoadTeams(); // Refresh
-                    }
+                    await _eventService.AddMemberToTeamAsync(teamId, userId, null, "Member");
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"Error: {ex.Message}");
+                    await _eventService.AddMemberToTeamAsync(teamId, null, userId, "Member");
                 }
+                LoadTeams(); // Refresh
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding member: {ex.Message}");
             }
         }
 

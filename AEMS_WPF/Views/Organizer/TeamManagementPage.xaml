@@ -19,7 +19,7 @@
         <Grid Grid.Row="0" Margin="0,0,0,30">
             <StackPanel>
                 <TextBlock x:Name="txtEventTitle" Text="Team Management" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
-                <TextBlock Text="Organize participants into teams and record activity scores." Foreground="{StaticResource TextMutedBrush}" FontSize="14"/>
+                <TextBlock Text="Organize participants into teams for your event." Foreground="{StaticResource TextMutedBrush}" FontSize="14"/>
             </StackPanel>
             <Button Content="Back" HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" Foreground="{StaticResource TextMutedBrush}" BorderThickness="0" Click="BtnBack_Click"/>
         </Grid>
@@ -63,12 +63,7 @@
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <StackPanel Margin="0,0,20,0" VerticalAlignment="Center">
-                                            <TextBlock Text="SCORE" Foreground="{StaticResource TextMutedBrush}" FontSize="10" HorizontalAlignment="Right"/>
-                                            <TextBlock Text="{Binding Score}" Foreground="#fbbf24" FontSize="20" FontWeight="Bold" HorizontalAlignment="Right"/>
-                                        </StackPanel>
-                                        <Button Content="Edit Score" Style="{StaticResource ModernButtonStyle}" Click="BtnEditScore_Click" DataContext="{Binding}" Margin="0,0,10,0"/>
-                                        <Button Content="Remove" Foreground="#f87171" Background="Transparent" BorderThickness="0" Click="BtnDeleteTeam_Click" DataContext="{Binding}"/>
+                                        <Button Content="Remove Team" Foreground="#f87171" Background="Transparent" BorderThickness="0" Click="BtnDeleteTeam_Click" DataContext="{Binding}"/>
                                     </StackPanel>
                                 </Grid>
 

@@ -6,6 +6,8 @@ using BusinessLogic.DTOs.Authentication.Login;
 using BusinessLogic.Service.Dashboard;
 using DataAccess.Enum;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -26,13 +28,31 @@ namespace AEMS_WPF.Views.Organizer
             _dropdownService = App.ServiceProvider.GetRequiredService<IDropdownService>();
             
             dgAgenda.ItemsSource = _agendas;
+            InitializeTimePickers();
             LoadDropdownsAsync();
             
             // Default dates
-            dpStart.SelectedDate = System.DateTime.Now.AddDays(7);
-            dpEnd.SelectedDate = System.DateTime.Now.AddDays(7).AddHours(2);
-            dpRegOpen.SelectedDate = System.DateTime.Now;
-            dpRegClose.SelectedDate = System.DateTime.Now.AddDays(6);
+            dpStart.SelectedDate = DateTime.Now.AddDays(7);
+            cbStartHour.SelectedValue = 8;
+            cbStartMin.SelectedValue = 0;
+
+            dpEnd.SelectedDate = DateTime.Now.AddDays(7);
+            cbEndHour.SelectedValue = 10;
+            cbEndMin.SelectedValue = 0;
+
+            dpRegOpen.SelectedDate = DateTime.Now;
+            dpRegClose.SelectedDate = DateTime.Now.AddDays(6);
+        }
+
+        private void InitializeTimePickers()
+        {
+            var hours = Enumerable.Range(0, 24).ToList();
+            var minutes = Enumerable.Range(0, 12).Select(i => i * 5).ToList();
+
+            cbStartHour.ItemsSource = hours;
+            cbStartMin.ItemsSource = minutes;
+            cbEndHour.ItemsSource = hours;
+            cbEndMin.ItemsSource = minutes;
         }
 
         private async void LoadDropdownsAsync()
@@ -58,12 +78,21 @@ namespace AEMS_WPF.Views.Organizer
 
         private void BtnAddSession_Click(object sender, RoutedEventArgs e)
         {
+            var startTime = CombineDateTime(dpStart.SelectedDate, cbStartHour.SelectedValue, cbStartMin.SelectedValue);
             _agendas.Add(new CreateAgendaItemDto 
             { 
                 SessionName = "New Session", 
-                StartTime = dpStart.SelectedDate ?? System.DateTime.Now,
-                EndTime = (dpStart.SelectedDate ?? System.DateTime.Now).AddHours(1)
+                StartTime = startTime,
+                EndTime = startTime.AddHours(1)
             });
+        }
+
+        private DateTime CombineDateTime(DateTime? date, object? hour, object? minute)
+        {
+            if (date == null) return DateTime.Now;
+            int h = (int)(hour ?? 0);
+            int m = (int)(minute ?? 0);
+            return new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, h, m, 0);
         }
 
         private void BtnRemoveSession_Click(object sender, RoutedEventArgs e)
@@ -88,10 +117,10 @@ namespace AEMS_WPF.Views.Organizer
                 {
                     Title = txtTitle.Text,
                     Description = txtDescription.Text,
-                    StartTime = dpStart.SelectedDate ?? System.DateTime.Now,
-                    EndTime = dpEnd.SelectedDate ?? System.DateTime.Now,
-                    RegistrationOpenTime = dpRegOpen.SelectedDate ?? System.DateTime.Now,
-                    RegistrationCloseTime = dpRegClose.SelectedDate ?? System.DateTime.Now,
+                    StartTime = CombineDateTime(dpStart.SelectedDate, cbStartHour.SelectedValue, cbStartMin.SelectedValue),
+                    EndTime = CombineDateTime(dpEnd.SelectedDate, cbEndHour.SelectedValue, cbEndMin.SelectedValue),
+                    RegistrationOpenTime = dpRegOpen.SelectedDate ?? DateTime.Now,
+                    RegistrationCloseTime = dpRegClose.SelectedDate ?? DateTime.Now,
                     SemesterId = cbSemester.SelectedValue?.ToString() ?? "",
                     DepartmentId = cbDepartment.SelectedValue?.ToString(),
                     TopicId = cbTopic.SelectedValue?.ToString() ?? "",

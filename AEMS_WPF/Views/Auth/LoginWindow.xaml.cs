@@ -7,7 +7,7 @@ using BusinessLogic.DTOs.Authentication.Login;
 using BusinessLogic.Service.Auth;
 using BusinessLogic.Service.System;
 using DataAccess.Repositories.Abstraction;
-
+using AEMS_WPF.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
@@ -93,8 +93,12 @@ namespace AEMS_WPF.Views.Auth
 
                     string role = result.User.Role ?? "";
 
-                    if (role == "Admin" || role == "Organizer")
+                    if (role == "Admin" || role == "Organizer" || role == "Approver")
                     {
+                        // Khởi tạo SignalR Connection
+                        var signalRService = App.ServiceProvider.GetRequiredService<SignalRClientService>();
+                        _ = signalRService.StartAsync(result.User.Id, role);
+
                         // 1. Khởi tạo Cửa sổ khung mới tạo
                         var appWindow = new MainAppWindow();
 

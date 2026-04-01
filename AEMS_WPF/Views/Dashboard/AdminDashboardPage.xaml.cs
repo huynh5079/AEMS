@@ -308,6 +308,12 @@ namespace AEMS_WPF.Views.Dashboard
             }
         }
 
+        private void BtnNavChat_Click(object sender, RoutedEventArgs e)
+        {
+            var chat = new ChatWindow(_user);
+            chat.Show();
+        }
+
         private void BtnNavActivityLog_Click(object sender, RoutedEventArgs e)
         {
             if (this.NavigationService != null)

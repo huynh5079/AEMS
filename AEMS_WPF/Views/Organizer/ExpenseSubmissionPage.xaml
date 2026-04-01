@@ -9,62 +9,91 @@
       Title="Expense Submission">
 
     <Grid Margin="30">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="40">
+                <!-- Header -->
+                <Grid Margin="0,0,0,30">
+                    <StackPanel>
+                        <TextBlock x:Name="txtEventTitle" Text="Expenses" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
+                        <TextBlock Text="Record final costs and upload proof of payment (receipts/bills)." Foreground="{StaticResource TextMutedBrush}" FontSize="14"/>
+                    </StackPanel>
+                    <Button Content="Back" HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" Foreground="{StaticResource TextMutedBrush}" BorderThickness="0" Click="BtnBack_Click"/>
+                </Grid>
 
-        <!-- Header -->
-        <Grid Grid.Row="0" Margin="0,0,0,30">
-            <StackPanel>
-                <TextBlock x:Name="txtEventTitle" Text="Submit Actual Expenses" FontSize="28" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
-                <TextBlock Text="Record final costs and upload proof of payment (receipts/bills)." Foreground="{StaticResource TextMutedBrush}" FontSize="14"/>
-            </StackPanel>
-            <Button Content="Back" HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" Foreground="{StaticResource TextMutedBrush}" BorderThickness="0" Click="BtnBack_Click"/>
-        </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-        <!-- Form & Upload -->
-        <Border Grid.Row="2" Background="{StaticResource LowWhiteBrush}" CornerRadius="15" Padding="30">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                    <!-- Left: Form -->
+                    <Border Grid.Column="0" Background="{StaticResource LowWhiteBrush}" CornerRadius="12" Padding="25" Margin="0,0,20,0">
+                        <StackPanel>
+                            <TextBlock Text="Expense Details" Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
 
-                <!-- Left: Form Fields -->
-                <StackPanel Grid.Column="0" Margin="0,0,30,0">
-                    <TextBlock Text="Expense Details" Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
-                    
-                    <TextBlock Text="Expense Name / Description" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,8"/>
-                    <TextBox x:Name="txtExpenseName" Style="{StaticResource ModernTextBoxStyle}" Tag="e.g., F&amp;B, Logistics, T-shirts" Margin="0,0,0,20"/>
+                            <TextBlock Text="Expense Name / Description" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,8"/>
+                            <TextBox x:Name="txtExpenseName" Style="{StaticResource ModernTextBoxStyle}" Margin="0,0,0,20"/>
 
-                    <TextBlock Text="Actual Amount (VND)" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,8"/>
-                    <TextBox x:Name="txtAmount" Style="{StaticResource ModernTextBoxStyle}" Tag="0.00" Margin="0,0,0,20"/>
+                            <TextBlock Text="Actual Amount (VND)" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,8"/>
+                            <TextBox x:Name="txtAmount" Style="{StaticResource ModernTextBoxStyle}" Margin="0,0,0,20"/>
 
-                    <TextBlock Text="Payment Date" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,8"/>
-                    <DatePicker x:Name="dpPaymentDate" Margin="0,0,0,25" />
-
-                    <Button x:Name="BtnSubmit" Content="Submit for Audit" Style="{StaticResource PrimaryButtonStyle}" Height="45" Click="BtnSubmit_Click"/>
-                </StackPanel>
-
-                <!-- Right: Receipt Upload -->
-                <StackPanel Grid.Column="1">
-                    <TextBlock Text="Proof of Payment" Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
-                    
-                    <Border x:Name="borderReceipt" Background="#1AFFFFFF" BorderThickness="2" BorderBrush="{StaticResource LowWhiteBrush}" CornerRadius="12" Height="250" Margin="0,0,0,15">
-                        <Grid>
-                            <StackPanel x:Name="stackPlaceholder" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock Text="&#xE104;" FontFamily="Segoe MDL2 Assets" FontSize="48" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                <TextBlock Text="Click to upload receipt image" Foreground="{StaticResource TextMutedBrush}"/>
-                            </StackPanel>
-                            <Image x:Name="imgReceipt" Stretch="Uniform" Margin="5"/>
-                            <Button x:Name="BtnUpload" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="BtnUpload_Click"/>
-                        </Grid>
+                            <Button x:Name="btnSubmit" Content="Submit for Audit" Style="{StaticResource PrimaryButtonStyle}" Height="45" Click="BtnSubmit_Click"/>
+                        </StackPanel>
                     </Border>
-                    <TextBlock Text="Please ensure the receipt clearly shows the amount, date, and vendor information." Foreground="{StaticResource TextMutedBrush}" FontSize="12" TextWrapping="Wrap"/>
-                </StackPanel>
-            </Grid>
-        </Border>
+
+                    <!-- Right: Upload Area -->
+                    <Border Grid.Column="1" Background="{StaticResource LowWhiteBrush}" CornerRadius="12" Padding="25">
+                        <StackPanel>
+                            <TextBlock Text="Proof of Payment" Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                            <Button Style="{StaticResource ModernButtonStyle}" Height="200" Click="BtnUpload_Click">
+                                <Grid>
+                                    <StackPanel x:Name="stackPlaceholder" VerticalAlignment="Center">
+                                        <Image Source="/AEMS_WPF;component/Assets/Images/upload_icon.png" Width="48" Height="48" Opacity="0.5" Margin="0,0,0,10"/>
+                                        <TextBlock Text="Click to upload receipt image" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Image x:Name="imgReceipt" Stretch="Uniform"/>
+                                </Grid>
+                            </Button>
+
+                            <TextBlock Text="Please ensure the receipt clearly shows the amount, date, and vendor information." 
+                                   Foreground="{StaticResource TextMutedBrush}" FontSize="12" TextWrapping="Wrap" Margin="0,15,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Expense History Section -->
+                <TextBlock Text="Submitted Expenses" Foreground="White" FontSize="22" FontWeight="Bold" Margin="0,40,0,20"/>
+                
+                <ItemsControl x:Name="icExpenses">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{StaticResource LowWhiteBrush}" CornerRadius="12" Padding="15" Margin="0,0,0,10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{Binding Title}" Foreground="White" FontWeight="Bold" FontSize="14"/>
+                                        <TextBlock Text="{Binding CreatedAt, StringFormat='{}Date: {0:dd/MM/yyyy HH:mm}'}" Foreground="{StaticResource TextMutedBrush}" FontSize="11"/>
+                                    </StackPanel>
+                                    
+                                    <TextBlock Grid.Column="1" Text="{Binding ActualAmount, StringFormat='{}{0:N0} VND'}" Foreground="#fbbf24" VerticalAlignment="Center" Margin="20,0"/>
+                                    
+                                    <Border Grid.Column="2" Background="{Binding StatusColor}" Padding="10,4" CornerRadius="6" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Status}" Foreground="White" FontSize="11" FontWeight="Bold"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+                <TextBlock x:Name="txtNoExpenses" Text="No expenses recorded yet." Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" Visibility="Collapsed"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

@@ -19,8 +19,8 @@ build_app:
     # Dùng win-x86 vì gói Azure Free/Shared không hỗ trợ 64-bit
     - dotnet publish "$PROJECT_PATH" -c Release -o ./publish -r win-x86 --self-contained true
     # Lệnh nén file bằng PowerShell (cho Windows Runner)
-    - if (Test-Path publish.zip) { Remove-Item publish.zip }
-    - Compress-Archive -Path ./publish/* -DestinationPath ./publish.zip -Force
+    - powershell -Command "if (Test-Path publish.zip) { Remove-Item publish.zip -Force }"
+    - powershell -Command "cd publish; Compress-Archive -Path * -DestinationPath ../publish.zip -Force"
     - echo "=== BUILD XONG! ==="
   artifacts:
     paths:

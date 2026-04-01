@@ -1241,7 +1241,7 @@ public class EventService : IEventService
 			Score = 0,
 			CreatedAt = DateTimeHelper.GetVietnamTime()
 		};
-		await _uow.EventTeams.CreateAsync(team); // Requires IUnitOfWork to have EventTeams, wait I will check if it exists or use generic repo
+		await _uow.EventTeams.CreateAsync(team);
 		await _uow.SaveChangesAsync();
 		return true;
 	}
@@ -1311,8 +1311,33 @@ public class EventService : IEventService
 
 	public async Task<List<EventTeamDto>> GetEventTeamsAsync(string eventId)
 	{
-		// Just a stub or simple implementation to satisfy the interface
-		return new List<EventTeamDto>();
+		var teams = await _uow.EventTeams.GetAllAsync(
+			t => t.EventId == eventId,
+			q => q.Include(t => t.TeamMembers!).ThenInclude(m => m.Student!).ThenInclude(s => s.User!)
+				  .Include(t => t.TeamMembers!).ThenInclude(m => m.Staff!).ThenInclude(s => s.User!)
+		);
+
+		return teams.Select(t => new EventTeamDto
+		{
+			Id = t.Id,
+			EventId = t.EventId,
+			TeamName = t.TeamName,
+			Description = t.Description,
+			Score = t.Score ?? 0,
+			PlaceRank = t.PlaceRank,
+			CreatedAt = t.CreatedAt,
+			TeamMembers = t.TeamMembers?.Select(m => new TeamMemberDto
+			{
+				Id = m.Id,
+				TeamId = m.TeamId,
+				StudentId = m.StudentId,
+				StaffId = m.StaffId,
+				MemberName = m.Student?.User?.FullName ?? m.Staff?.User?.FullName ?? "Unknown",
+				MemberEmail = m.Student?.User?.Email ?? m.Staff?.User?.Email ?? "Unknown",
+				RoleName = m.StudentId != null ? "Student" : "Staff",
+				TeamRole = m.Role?.ToString() ?? "Member"
+			}).ToList() ?? new List<TeamMemberDto>()
+		}).ToList();
 	}
 
 	public async Task<string> CreateEventAgendaAsync(string userId, CreateEventAgendaDto dto)

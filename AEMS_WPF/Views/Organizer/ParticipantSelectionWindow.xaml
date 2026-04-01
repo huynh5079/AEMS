@@ -24,8 +24,8 @@
                     <DataTemplate>
                         <Border Background="{StaticResource LowWhiteBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,10">
                             <StackPanel>
-                                <TextBlock Text="{Binding FullName}" Foreground="White" FontWeight="SemiBold"/>
-                                <TextBlock Text="{Binding StudentCode}" Foreground="{StaticResource TextMutedBrush}" FontSize="12"/>
+                                <TextBlock Text="{Binding fullName}" Foreground="White" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding email}" Foreground="{StaticResource TextMutedBrush}" FontSize="12"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
