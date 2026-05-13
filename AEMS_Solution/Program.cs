@@ -15,6 +15,7 @@ using BusinessLogic.Service.Event;
 using BusinessLogic.Service.Event.EventDepartment;
 using BusinessLogic.Service.Event.Semester;
 using BusinessLogic.Service.Event.Sub_Service.Location;
+using AEMS_Solution.Hubs;
 using BusinessLogic.Service.Event.Sub_Service.Quiz;
 using BusinessLogic.Service.Event.Sub_Service.Quiz.ForAll;
 using BusinessLogic.Service.Event.Sub_Service.Semester;
@@ -185,33 +186,6 @@ var app = builder.Build();
 // 2. Middleware Pipeline
 // ==========================================
 
-// SignalR Authentication for WPF (Shared Secret)
-app.Use(async (context, next) =>
-{
-    var path = context.Request.Path.Value ?? "";
-    if (path.StartsWith("/hub/v1/", StringComparison.OrdinalIgnoreCase))
-    {
-        var secret = context.Request.Query["wpfSecret"];
-        if (secret == "AEMS_WPF_SECRET_2026")
-        {
-            var userId = context.Request.Query["userId"].ToString();
-            var userRole = context.Request.Query["userRole"].ToString();
-
-            if (!string.IsNullOrEmpty(userId))
-            {
-                var claims = new List<System.Security.Claims.Claim>
-                {
-                    new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, userId),
-                    new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, userRole)
-                };
-                var identity = new System.Security.Claims.ClaimsIdentity(claims, "WPF_Secret_Auth");
-                context.User = new System.Security.Claims.ClaimsPrincipal(identity);
-            }
-        }
-    }
-    await next();
-});
-
 // Fix for Azure SSL Termination (Google Auth Redirect URI mismatch)
 var forwardedOptions = new ForwardedHeadersOptions
 {
@@ -251,6 +225,10 @@ app.UseAuthorization();
 // SignalR Hubs
 app.MapHub<NotificationHub>("/hub/v1/notification");
 app.MapHub<ChatHub>("/hub/v1/chat");
+
+// Dedicated WPF SignalR Hubs (Secret based auth)
+app.MapHub<WpfNotificationHub>("/hub/wpf/notification");
+app.MapHub<WpfChatHub>("/hub/wpf/chat");
 
 // MVC Default Route
 app.MapControllerRoute(

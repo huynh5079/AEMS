@@ -33,7 +33,7 @@ namespace AEMS_WPF.Services
             if (_notificationHub == null)
             {
                 _notificationHub = new HubConnectionBuilder()
-                    .WithUrl($"{_baseUrl}/hub/v1/notification{queryAuth}")
+                    .WithUrl($"{_baseUrl}/hub/wpf/notification{queryAuth}")
                     .WithAutomaticReconnect()
                     .Build();
 
@@ -47,7 +47,7 @@ namespace AEMS_WPF.Services
             if (_chatHub == null)
             {
                 _chatHub = new HubConnectionBuilder()
-                    .WithUrl($"{_baseUrl}/hub/v1/chat{queryAuth}")
+                    .WithUrl($"{_baseUrl}/hub/wpf/chat{queryAuth}")
                     .WithAutomaticReconnect()
                     .Build();
 

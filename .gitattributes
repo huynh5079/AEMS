@@ -1,0 +1,9 @@
+# Passing library with FE count % in attribute
+AEMS_Solution/wwwroot/lib/** linguist-vendored
+AEMS_Solution/wwwroot/css/** linguist-vendored
+AEMS_Solution/wwwroot/js/** linguist-vendored
+
+# Force GitHub pasing HTML/CSS/JS for C#
+*.html linguist-detectable=false
+*.js linguist-detectable=false
+*.css linguist-detectable=false
